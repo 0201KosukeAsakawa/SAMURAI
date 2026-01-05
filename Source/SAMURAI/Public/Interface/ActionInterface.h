@@ -36,7 +36,7 @@ public:
     virtual void Start() {}
     virtual void Tick(float DeltaTime) {}
     virtual void End() {}
-
+        
     // Action完了通知
     DECLARE_DELEGATE_TwoParams(FOnActionFinished, IActionInterface*, const FActionResult&);
     FOnActionFinished OnFinished;
