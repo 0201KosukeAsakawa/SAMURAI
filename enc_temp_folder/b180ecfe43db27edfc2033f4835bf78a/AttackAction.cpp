@@ -19,22 +19,22 @@ void UAttackAction::ActionStart()
     AnimInstance = OwnerCharacter->GetMesh()->GetAnimInstance();
     if (!AnimInstance) return;
 
-  ActiveShapes.Empty();
+  //ActiveShapes.Empty();
 
-    for (auto ShapeClass : HitShapeClasses)
-    {
-        UAttackHitShape* Shape =
-            NewObject<UAttackHitShape>(this, ShapeClass);
+  //  for (auto ShapeClass : HitShapes)
+  //  {
+  //      UAttackHitShape* Shape =
+  //          NewObject<UAttackHitShape>(this, ShapeClass);
 
-        Shape->Initialize(OwnerCharacter);
+  //      Shape->Initialize(OwnerCharacter);
 
-        Shape->OnHit.BindUObject(
-            this,
-            &UAttackAction::NotifyHitResult
-        );
+  //      Shape->OnHit.BindUObject(
+  //          this,
+  //          &UAttackAction::NotifyHitResult
+  //      );
 
-        ActiveShapes.Add(Shape);
-    }
+  //      ActiveShapes.Add(Shape);
+  //  }
 
     FOnMontageEnded EndDelegate;
     EndDelegate.BindUObject(this, &UAttackAction::OnMontageEnded);
@@ -68,11 +68,11 @@ void UAttackAction::NotifyHitResult(EAttackHitResult InResult)
 }
 TArray<UAttackHitShape*> UAttackAction::GetActiveShapes() const
 {
-    return ActiveShapes;
+    return HitShapes;
 }
 void UAttackAction::ActivateHitShapes()
 {
-    for (UAttackHitShape* Shape : ActiveShapes)
+    for (UAttackHitShape* Shape : HitShapes)
     {
         Shape->Activate();
     }
@@ -80,7 +80,7 @@ void UAttackAction::ActivateHitShapes()
 
 void UAttackAction::DeactivateHitShapes()
 {
-    for (UAttackHitShape* Shape : ActiveShapes)
+    for (UAttackHitShape* Shape : HitShapes)
     {
         Shape->Deactivate();
     }

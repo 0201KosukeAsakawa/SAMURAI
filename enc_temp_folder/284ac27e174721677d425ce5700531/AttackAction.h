@@ -11,7 +11,7 @@ class UAttackHitShape;
 /**
  * 
  */
-UCLASS(Blueprintable)
+UCLASS(Blueprintable, EditInlineNew)
 class SAMURAI_API UAttackAction : public UActionBase
 {
     GENERATED_BODY()
@@ -34,11 +34,8 @@ private:
     UPROPERTY(EditAnywhere)
     UAnimMontage* Montage;
 
-    UPROPERTY(EditAnywhere)
-    TArray<TSubclassOf<UAttackHitShape>> HitShapeClasses;
-
-    UPROPERTY()
-    TArray<UAttackHitShape*> ActiveShapes;
+    UPROPERTY(EditAnywhere, Instanced, Category = "HitShapes")
+    TArray<UAttackHitShape*> HitShapes;
 
     UPROPERTY()
     UAnimInstance* AnimInstance;
