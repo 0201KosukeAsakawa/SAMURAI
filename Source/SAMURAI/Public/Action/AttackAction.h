@@ -8,9 +8,28 @@
 
 class UAnimationMontage;
 class UAttackHitShape;
-/**
- * 
- */
+
+UENUM(BlueprintType)
+enum class EAttackType : uint8
+{
+    Normal,     // 通常斬り
+    Thrust,     // 突き（見切り対象）
+    Sweep,      // 下段（ジャンプ対象）
+    Grab        // 掴み（ガード不可）
+};
+
+USTRUCT(BlueprintType)
+struct FAttackInfo
+{
+    GENERATED_BODY()
+
+    UPROPERTY(EditAnywhere)
+    float Damage = 0.f;
+
+    UPROPERTY(EditAnywhere)
+    EAttackType Type = EAttackType::Normal;
+};
+
 UCLASS(Blueprintable)
 class SAMURAI_API UAttackAction : public UActionBase
 {
@@ -34,14 +53,12 @@ private:
     UPROPERTY(EditAnywhere)
     UAnimMontage* Montage;
 
-    UPROPERTY(EditAnywhere)
-    TArray<TSubclassOf<UAttackHitShape>> HitShapeClasses;
-
-    UPROPERTY()
+    UPROPERTY(EditAnywhere, Instanced, Category = "HitShape")
     TArray<UAttackHitShape*> ActiveShapes;
 
     UPROPERTY()
     UAnimInstance* AnimInstance;
 
-    EAttackHitResult FinalHitResult;
+    UPROPERTY(EditAnywhere)
+    FAttackInfo AttackInfo;
 };

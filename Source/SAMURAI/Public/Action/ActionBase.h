@@ -13,18 +13,21 @@ enum class EActionEndReason : uint8
     Interrupted    // 強制中断
 };
 
+UENUM(BlueprintType)
 enum class EAttackHitResult : uint8
 {
-    None,
-    Hit,
-    Guarded,
-    Parried
+    Miss,       // 空振り
+    Deflect,    // 弾き
+    Guard,      // ガード
+    Hit,        // 被弾
+    Mikiri,     // 見切り
+    Grabbed     // 掴まれた
 };
 
 struct FActionResult
 {
     EActionEndReason EndReason = EActionEndReason::Completed;
-    EAttackHitResult HitResult = EAttackHitResult::None;
+    EAttackHitResult HitResult = EAttackHitResult::Miss;
 };
 /**
  * 
@@ -57,6 +60,8 @@ protected:
 
     UPROPERTY()
     ACharacter* OwnerCharacter;
+
+    FActionResult ActionResult;
 private:
     bool bFinished;
 };

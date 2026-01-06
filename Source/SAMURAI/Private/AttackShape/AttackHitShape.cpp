@@ -13,7 +13,7 @@ EAttackHitResult UAttackHitShape::JudgeHitResult(AActor* OtherActor) const
     // 共通の最低限ロジック
     if (!OtherActor || OtherActor == OwnerActor)
     {
-        return EAttackHitResult::None;
+        return EAttackHitResult::Miss;
     }
 
     //// 防御・弾き判定は Actor 側に問い合わせる
@@ -21,5 +21,5 @@ EAttackHitResult UAttackHitShape::JudgeHitResult(AActor* OtherActor) const
     //    OtherActor,
     //    OwnerActor
     //);
-    return EAttackHitResult::None;
+    return EAttackHitResult::Miss;
 }

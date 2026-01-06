@@ -8,7 +8,7 @@
 UAttackAction::UAttackAction()
     : Montage(nullptr)
     , AnimInstance(nullptr)
-    , FinalHitResult(EAttackHitResult::None)
+    , AttackInfo()
 {
 }
 
@@ -18,23 +18,6 @@ void UAttackAction::ActionStart()
 
     AnimInstance = OwnerCharacter->GetMesh()->GetAnimInstance();
     if (!AnimInstance) return;
-
-  ActiveShapes.Empty();
-
-    for (auto ShapeClass : HitShapeClasses)
-    {
-        UAttackHitShape* Shape =
-            NewObject<UAttackHitShape>(this, ShapeClass);
-
-        Shape->Initialize(OwnerCharacter);
-
-        Shape->OnHit.BindUObject(
-            this,
-            &UAttackAction::NotifyHitResult
-        );
-
-        ActiveShapes.Add(Shape);
-    }
 
     FOnMontageEnded EndDelegate;
     EndDelegate.BindUObject(this, &UAttackAction::OnMontageEnded);
@@ -57,13 +40,13 @@ void UAttackAction::Interrupt()
 
 void UAttackAction::NotifyHitResult(EAttackHitResult InResult)
 {
-    if (InResult == EAttackHitResult::Parried)
+    if (InResult == EAttackHitResult::Mikiri)
     {
-        FinalHitResult = InResult;
+        ActionResult.HitResult = InResult;
     }
-    else if (FinalHitResult == EAttackHitResult::None)
+    else if (ActionResult.HitResult == EAttackHitResult::Miss)
     {
-        FinalHitResult = InResult;
+        ActionResult.HitResult = InResult;
     }
 }
 TArray<UAttackHitShape*> UAttackAction::GetActiveShapes() const
@@ -98,7 +81,7 @@ void UAttackAction::OnMontageEnded(
         ? EActionEndReason::Interrupted
         : EActionEndReason::Completed;
 
-    Result.HitResult = FinalHitResult;
+    Result.HitResult = ActionResult.HitResult;
 
     FinishAction(Result);
 }

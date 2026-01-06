@@ -7,7 +7,7 @@
 #include "Action/ActionBase.h"
 #include "AttackHitShape.generated.h"
 
-UCLASS(Abstract)
+UCLASS(Abstract,Blueprintable, EditInlineNew, DefaultToInstanced)
 class SAMURAI_API UAttackHitShape : public UObject
 {
     GENERATED_BODY()

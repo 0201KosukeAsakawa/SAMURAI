@@ -8,7 +8,7 @@
 
 class UBoxComponent;
 
-UCLASS()
+UCLASS(Blueprintable)
 class SAMURAI_API UBoxAttackHitShape : public UAttackHitShape
 {
     GENERATED_BODY()
